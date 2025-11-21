@@ -137,9 +137,6 @@ Respuesta esperada para este error  - Body:
     "error": "Bad Request",
     "statusCode": 400
 }
-
-cceb8106-91d2-4647-b2ee-2e7b169ac157
-
 ```
 
 Ejemplo de obtención de un elemento por un UUID que no existe en la base de datos
