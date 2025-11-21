@@ -1,15 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseUUIDPipe,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -18,20 +7,26 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // 🆕 CREATE USER
+  /**
+   * ! Crear usuario 
+   */
   @Post()
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
 
-  // 📋 FIND ALL USERS
+  /**
+   * ! Buscar todos los usuarios
+   */
   @Get('getAllUsers')
   getAllUsers() {
     return this.usersService.findAllUsers();
   }
 
-  // 🔍 FIND ONE BY ID
+  /**
+   * ! Buscar usuario por ID
+   */
   @Get(':id')
   getUserById(
     @Param('id', new ParseUUIDPipe({ version: '4' })) 
@@ -40,13 +35,17 @@ export class UsersController {
     return this.usersService.findOneById(id);
   }
 
-  // 📧 FIND ONE BY EMAIL (NUEVO ENDPOINT)
+  /**
+   * ! Buscar usuario por EMAIL 
+   */
   @Get('email/:email')
   getUserByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
 
-  // ✏️ UPDATE USER
+  /**
+   * ! Actualizar usuario 
+   */
   @Patch(':id')
   @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
   updateUser(
@@ -58,7 +57,9 @@ export class UsersController {
     return this.usersService.updateUser(id, updateUserDto);
   }
 
-  // 🗑️ REMOVE USER
+  /**
+   * ! Eliminar usuario 
+   */
   @Delete(':id')
   removeUser(
     @Param('id', new ParseUUIDPipe({ version: '4' }))
