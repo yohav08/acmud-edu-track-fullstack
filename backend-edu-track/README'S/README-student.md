@@ -22,8 +22,6 @@ Content-Type: application/json
 
 Datos para crear user
 ```
-POST http://localhost:3000/users
-
 {
   "name": "Laura González",
   "email": "laura.gonzalez@email.com",
@@ -59,7 +57,7 @@ Respuesta esperada para éxito - Body:
 Ejemplo para la creación de un estudiante  con usuario que no es estudiante 
 ```
 {
-  "id": "64f2614e-ccd7-4441-97e2-21b501248829",
+  "id": "64f2614e-ccd7-4441-97e2-21b501248849",
   "anio_ingreso": 2023
 }
 ```
@@ -117,17 +115,17 @@ GET http://localhost:3000/teachers/getAllStudents
 Respuesta esperada para éxito - Body:
 ```
 {
-    "count": 1,
-    "teachers": [
+    "count": 1, //Aquí vemos la cantidad total
+    "students": [
         {
-            "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-            "especialidad": "Matemáticas Avanzadas",
-            "id_user": {
-                "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-                "name": "Carlos López",
-                "email": "carlos.lopez@email.com",
-                "rol": "Profesor",
-                "createdAt": "2025-11-19T04:23:08.608Z"
+            "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+            "anio_ingreso": 2023,
+            "user": {
+                "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+                "name": "Laura González",
+                "email": "laura.gonzalez@email.com",
+                "rol": "Estudiante",
+                "createdAt": "2025-11-19T04:25:08.608Z"
             }
         }
     ]
@@ -138,36 +136,36 @@ Cuando no hay profesores en la base de datos, la respuesta esperada - Body es:
 ```
 {
     "count": 0,
-    "teachers": []
+    "students": []
 }
 ```
 
 
-### **GET - Obtención un profesor por su ID**
+### **GET - Obtención un estudiante  por su ID**
 
-Ejemplo de obtención de un profesor por su ID
+Ejemplo de obtención de un estudiante  por su ID
 ```
-GET http://localhost:3000/teachers/64f2614e-ccd7-4441-97e2-21b501248828
+GET http://localhost:3000/students/74f2614e-ccd7-4441-97e2-21b501248829
 ```
 
 Respuesta esperada para éxito - Body:
 ```
 {
-    "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-    "especialidad": "Matemáticas Avanzadas",
-    "id_user": {
-        "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-        "name": "Carlos López",
-        "email": "carlos.lopez@email.com",
-        "rol": "Profesor",
-        "createdAt": "2025-11-19T04:23:08.608Z"
+    "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+    "anio_ingreso": 2023,
+    "user": {
+        "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+        "name": "Laura González",
+        "email": "laura.gonzalez@email.com",
+        "rol": "Estudiante",
+        "createdAt": "2025-11-19T04:25:08.608Z"
     }
 }
 ```
 
-Ejemplo de obtención de un profesor por un ID que no es de tipo UUID
+Ejemplo de obtención de un estudiante por un ID que no es de tipo UUID
 ```
-GET http://localhost:3000/teachers/123-invalido
+GET http://localhost:3000/students/123-invalido
 ```
 
 Respuesta esperada para este error - Body:
@@ -179,115 +177,72 @@ Respuesta esperada para este error - Body:
 }
 ```
 
-Ejemplo de obtención de un profesor por un UUID que no existe
+Ejemplo de obtención de un estudiante por un UUID que no existe
 ```
-GET http://localhost:3000/teachers/cceb8106-91d2-4647-b2ee-2e7b169ac154
+GET http://localhost:3000/students/cceb8106-91d2-4647-b2ee-2e7b169ac154
 ```
 
 Respuesta esperada para este error - Body:
 ```
 {
-    "message": "Profesor con id cceb8106-91d2-4647-b2ee-2e7b169ac154 no encontrado",
+    "message": "Estudiante con id cceb8106-91d2-4647-b2ee-2e7b169ac155 no encontrado",
     "error": "Not Found",
     "statusCode": 404
 }
 ```
 
 
-### **GET - Obtención profesores por especialidad**
+### **PATCH - Actualización de estudiante**
 
-Ejemplo de obtención de profesores por especialidad
+Ejemplo de actualización de un estudiante
 ```
-GET http://localhost:3000/teachers/especialidad/Matemáticas Avanzadas
-```
-
-Respuesta esperada para éxito - Body:
-```
-{
-    "count": 1,
-    "especialidad": "Matemáticas Avanzadas",
-    "teachers": [
-        {
-            "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-            "especialidad": "Matemáticas Avanzadas",
-            "id_user": {
-                "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-                "name": "Carlos López",
-                "email": "carlos.lopez@email.com",
-                "rol": "Profesor",
-                "createdAt": "2025-11-19T04:23:08.608Z"
-            }
-        }
-    ]
-}
-```
-
-Ejemplo de obtención de profesores por especialidad inexistente
-```
-GET http://localhost:3000/teachers/especialidad/EspecialidadInexistente
-```
-
-Respuesta esperada para este error - Body:
-```
-{
-    "message": "No se encontraron profesores con la especialidad: EspecialidadInexistente",
-    "error": "Not Found",
-    "statusCode": 404
-}
-```
-
-
-### **PATCH - Actualización de profesor**
-
-Ejemplo de actualización de un profesor
-```
-PATCH http://localhost:3000/teachers/64f2614e-ccd7-4441-97e2-21b501248828
+PATCH http://localhost:3000/students/64f2614e-ccd7-4441-97e2-21b501248828
 ```
 
 Datos a actualizar
 ```
 {
-  "especialidad": "Matemáticas y Física"
+  "anio_ingreso": 2024
 }
 ```
 
 Respuesta esperada para éxito - Body:
 ```
 {
-    "message": "Profesor actualizado exitosamente",
-    "teacher": {
-        "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-        "especialidad": "Matemáticas y Física",
-        "id_user": {
-            "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-            "name": "Carlos López",
-            "email": "carlos.lopez@email.com",
-            "rol": "Profesor",
-            "createdAt": "2025-11-19T04:23:08.608Z"
+    "message": "Estudiante actualizado exitosamente",
+    "student": {
+        "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+        "anio_ingreso": 2024,
+        "user": {
+            "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+            "name": "Laura González",
+            "email": "laura.gonzalez@email.com",
+            "rol": "Estudiante",
+            "createdAt": "2025-11-19T04:25:08.608Z"
         }
     }
 }
 ```
 
 
-### **DELETE - Eliminación un profesor por su ID**
+### **DELETE - Eliminación un estudiante por su ID**
 
-Ejemplo de eliminación de profesor por su ID
+Ejemplo de eliminación de estudiante por su ID
 ```
-DELETE http://localhost:3000/teachers/64f2614e-ccd7-4441-97e2-21b501248828
+DELETE http://localhost:3000/students/74f2614e-ccd7-4441-97e2-21b501248829
 ```
 
 Respuesta esperada - Body:
 ```
 {
-    "message": "Se ha eliminado el profesor con id: 64f2614e-ccd7-4441-97e2-21b501248828",
-    "deletedTeacher": {
-        "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-        "especialidad": "Matemáticas y Física",
+    "message": "Se ha eliminado el estudiante con id: 74f2614e-ccd7-4441-97e2-21b501248829",
+    "deletedStudent": {
+        "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+        "anio_ingreso": 2024,
         "user": {
-            "id": "64f2614e-ccd7-4441-97e2-21b501248828",
-            "name": "Carlos López",
-            "email": "carlos.lopez@email.com"
+            "id": "74f2614e-ccd7-4441-97e2-21b501248829",
+            "name": "Laura González",
+            "email": "laura.gonzalez@email.com"
         }
     }
 }
