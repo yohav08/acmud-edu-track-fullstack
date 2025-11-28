@@ -2,6 +2,8 @@ import { BadRequestException, Injectable, Logger, NotFoundException} from '@nest
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
+import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -14,6 +16,8 @@ export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly usersRepository: Repository<UserEntity>,
+    private readonly configService: ConfigService
+
   ) {}
 
   /**
@@ -30,11 +34,24 @@ export class UsersService {
         throw new BadRequestException(`El email ${createUserDto.email} ya está registrado`);
       }
 
-      const user = this.usersRepository.create(createUserDto);
+      // Hashear la contraseña antes de guardar
+      const { password, ...userData } = createUserDto;
+      
+      const hashedPassword = await bcrypt.hash(
+        password, 
+        Number(this.configService.get('SALT_ROUNDS_DEV') || 10)
+      );
+
+      const user = this.usersRepository.create({
+        ...userData,
+        password: hashedPassword
+      });
+
       await this.usersRepository.save(user);
       
-      // Retornamos el usuario sin el pswd por seguridad
-      const { password, ...userWithoutPassword } = user;
+      // Retornamos el usuario sin el password por seguridad
+      const { password: _, ...userWithoutPassword } = user;
+      
       return {
         message: 'El usuario fue guardado exitosamente',
         user: userWithoutPassword

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <title>Panel del Administrador</title>
+</head>
+<body>
+    <h1>Panel del Administrador</h1>
+    <div id="userInfo"></div>
+    <button onclick="logout()">Cerrar Sesión</button>
+
+    <!-- Gestión de Usuarios -->
+    <div>
+        <h2>Gestión de Usuarios</h2>
+        
+        <!-- Crear Usuario -->
+        <div>
+            <h3>Crear Usuario</h3>
+            <input type="text" id="userName" placeholder="Nombre">
+            <input type="email" id="userEmail" placeholder="Email">
+            <input type="password" id="userPassword" placeholder="Contraseña">
+            <select id="userRole">
+                <option value="Estudiante">Estudiante</option>
+                <option value="Profesor">Profesor</option>
+                <option value="Admin">Admin</option>
+            </select>
+            <button onclick="createUser()">Crear Usuario</button>
+        </div>
+
+        <!-- Obtener Todos los Usuarios -->
+        <div>
+            <h3>Obtener Todos los Usuarios</h3>
+            <button onclick="getAllUsers()">Obtener Todos</button>
+        </div>
+
+        <!-- Obtener Usuario por ID -->
+        <div>
+            <h3>Obtener Usuario por ID</h3>
+            <input type="text" id="userIdGet" placeholder="ID del usuario">
+            <button onclick="getUserById()">Obtener por ID</button>
+        </div>
+
+        <!-- Obtener Usuario por Email -->
+        <div>
+            <h3>Obtener Usuario por Email</h3>
+            <input type="email" id="userEmailGet" placeholder="Email del usuario">
+            <button onclick="getUserByEmail()">Obtener por Email</button>
+        </div>
+
+        <!-- Actualizar Usuario -->
+        <div>
+            <h3>Actualizar Usuario</h3>
+            <input type="text" id="userIdUpdate" placeholder="ID del usuario">
+            <input type="text" id="userNameUpdate" placeholder="Nuevo nombre">
+            <select id="userRoleUpdate">
+                <option value="Estudiante">Estudiante</option>
+                <option value="Profesor">Profesor</option>
+                <option value="Admin">Admin</option>
+            </select>
+            <button onclick="updateUser()">Actualizar</button>
+        </div>
+
+        <!-- Eliminar Usuario -->
+        <div>
+            <h3>Eliminar Usuario</h3>
+            <input type="text" id="userIdDelete" placeholder="ID del usuario">
+            <button onclick="deleteUser()">Eliminar</button>
+        </div>
+
+        <div id="userResult"></div>
+    </div>
+
+    <!-- Gestión de Profesores -->
+    <div>
+        <h2>Gestión de Profesores</h2>
+        
+        <!-- Crear Profesor -->
+        <div>
+            <h3>Crear Profesor</h3>
+            <input type="text" id="teacherId" placeholder="ID del usuario (UUID)">
+            <input type="text" id="especialidad" placeholder="Especialidad">
+            <button onclick="createTeacher()">Crear Profesor</button>
+        </div>
+
+        <!-- Obtener Todos los Profesores -->
+        <div>
+            <h3>Obtener Todos los Profesores</h3>
+            <button onclick="getAllTeachers()">Obtener Todos</button>
+        </div>
+
+        <!-- Obtener Profesor por ID -->
+        <div>
+            <h3>Obtener Profesor por ID</h3>
+            <input type="text" id="teacherIdGet" placeholder="ID del profesor">
+            <button onclick="getTeacherById()">Obtener por ID</button>
+        </div>
+
+        <!-- Obtener Profesores por Especialidad -->
+        <div>
+            <h3>Obtener por Especialidad</h3>
+            <input type="text" id="especialidadGet" placeholder="Especialidad">
+            <button onclick="getTeachersBySpecialty()">Buscar por Especialidad</button>
+        </div>
+
+        <!-- Actualizar Profesor -->
+        <div>
+            <h3>Actualizar Profesor</h3>
+            <input type="text" id="teacherIdUpdate" placeholder="ID del profesor">
+            <input type="text" id="especialidadUpdate" placeholder="Nueva especialidad">
+            <button onclick="updateTeacher()">Actualizar</button>
+        </div>
+
+        <!-- Eliminar Profesor -->
+        <div>
+            <h3>Eliminar Profesor</h3>
+            <input type="text" id="teacherIdDelete" placeholder="ID del profesor">
+            <button onclick="deleteTeacher()">Eliminar</button>
+        </div>
+
+        <div id="teacherResult"></div>
+    </div>
+
+    <!-- Gestión de Estudiantes -->
+    <div>
+        <h2>Gestión de Estudiantes</h2>
+        
+        <!-- Crear Estudiante -->
+        <div>
+            <h3>Crear Estudiante</h3>
+            <input type="text" id="studentId" placeholder="ID del usuario (UUID)">
+            <input type="number" id="anioIngreso" placeholder="Año de ingreso">
+            <button onclick="createStudent()">Crear Estudiante</button>
+        </div>
+
+        <!-- Obtener Todos los Estudiantes -->
+        <div>
+            <h3>Obtener Todos los Estudiantes</h3>
+            <button onclick="getAllStudents()">Obtener Todos</button>
+        </div>
+
+        <!-- Obtener Estudiante por ID -->
+        <div>
+            <h3>Obtener Estudiante por ID</h3>
+            <input type="text" id="studentIdGet" placeholder="ID del estudiante">
+            <button onclick="getStudentById()">Obtener por ID</button>
+        </div>
+
+        <!-- Actualizar Estudiante -->
+        <div>
+            <h3>Actualizar Estudiante</h3>
+            <input type="text" id="studentIdUpdate" placeholder="ID del estudiante">
+            <input type="number" id="anioIngresoUpdate" placeholder="Nuevo año de ingreso">
+            <button onclick="updateStudent()">Actualizar</button>
+        </div>
+
+        <!-- Eliminar Estudiante -->
+        <div>
+            <h3>Eliminar Estudiante</h3>
+            <input type="text" id="studentIdDelete" placeholder="ID del estudiante">
+            <button onclick="deleteStudent()">Eliminar</button>
+        </div>
+
+        <div id="studentResult"></div>
+    </div>
+
+    <!-- Gestión de Cursos -->
+    <div>
+        <h2>Gestión de Cursos</h2>
+        
+        <!-- Crear Curso -->
+        <div>
+            <h3>Crear Curso</h3>
+            <input type="text" id="courseName" placeholder="Nombre del curso">
+            <input type="text" id="courseDescription" placeholder="Descripción">
+            <input type="number" id="courseCredits" placeholder="Créditos">
+            <input type="text" id="courseTeacherId" placeholder="ID del profesor">
+            <button onclick="createCourse()">Crear Curso</button>
+        </div>
+
+        <!-- Obtener Todos los Cursos -->
+        <div>
+            <h3>Obtener Todos los Cursos</h3>
+            <button onclick="getAllCourses()">Obtener Todos</button>
+        </div>
+
+        <!-- Obtener Curso por ID -->
+        <div>
+            <h3>Obtener Curso por ID</h3>
+            <input type="number" id="courseIdGet" placeholder="ID del curso">
+            <button onclick="getCourseById()">Obtener por ID</button>
+        </div>
+
+        <!-- Obtener Cursos por Nombre -->
+        <div>
+            <h3>Buscar Cursos por Nombre</h3>
+            <input type="text" id="courseNameSearch" placeholder="Nombre del curso">
+            <button onclick="getCoursesByName()">Buscar por Nombre</button>
+        </div>
+
+        <!-- Obtener Cursos por Profesor -->
+        <div>
+            <h3>Obtener Cursos por Profesor</h3>
+            <input type="text" id="teacherCourses" placeholder="ID del profesor">
+            <button onclick="getCoursesByTeacher()">Buscar Cursos</button>
+        </div>
+
+        <!-- Actualizar Curso -->
+        <div>
+            <h3>Actualizar Curso</h3>
+            <input type="number" id="courseIdUpdate" placeholder="ID del curso">
+            <input type="text" id="courseNameUpdate" placeholder="Nuevo nombre">
+            <input type="text" id="courseDescUpdate" placeholder="Nueva descripción">
+            <input type="number" id="courseCreditsUpdate" placeholder="Nuevos créditos">
+            <button onclick="updateCourse()">Actualizar</button>
+        </div>
+
+        <!-- Eliminar Curso -->
+        <div>
+            <h3>Eliminar Curso</h3>
+            <input type="number" id="courseIdDelete" placeholder="ID del curso">
+            <button onclick="deleteCourse()">Eliminar</button>
+        </div>
+
+        <div id="courseResult"></div>
+    </div>
+
+    <!-- Gestión de Inscripciones -->
+    <div>
+        <h2>Gestión de Inscripciones</h2>
+        
+        <!-- Crear Inscripción -->
+        <div>
+            <h3>Crear Inscripción</h3>
+            <input type="date" id="fechaInscripcion" placeholder="Fecha">
+            <input type="number" id="nota" placeholder="Nota" step="0.1">
+            <input type="text" id="estudianteId" placeholder="ID del estudiante">
+            <input type="number" id="cursoId" placeholder="ID del curso">
+            <button onclick="createInscription()">Crear Inscripción</button>
+        </div>
+
+        <!-- Obtener Todas las Inscripciones -->
+        <div>
+            <h3>Obtener Todas las Inscripciones</h3>
+            <button onclick="getAllInscriptions()">Obtener Todas</button>
+        </div>
+
+        <!-- Obtener Inscripción por ID -->
+        <div>
+            <h3>Obtener Inscripción por ID</h3>
+            <input type="number" id="inscriptionIdGet" placeholder="ID de inscripción">
+            <button onclick="getInscriptionById()">Obtener por ID</button>
+        </div>
+
+        <!-- Obtener Inscripciones por Fecha -->
+        <div>
+            <h3>Obtener por Fecha</h3>
+            <input type="date" id="inscriptionDate" placeholder="Fecha">
+            <button onclick="getInscriptionsByDate()">Buscar por Fecha</button>
+        </div>
+
+        <!-- Obtener Inscripciones por Estudiante -->
+        <div>
+            <h3>Obtener por Estudiante</h3>
+            <input type="text" id="inscriptionStudent" placeholder="ID del estudiante">
+            <button onclick="getInscriptionsByStudent()">Buscar por Estudiante</button>
+        </div>
+
+        <!-- Obtener Inscripciones por Curso -->
+        <div>
+            <h3>Obtener por Curso</h3>
+            <input type="number" id="inscriptionCourse" placeholder="ID del curso">
+            <button onclick="getInscriptionsByCourse()">Buscar por Curso</button>
+        </div>
+
+        <!-- Obtener Inscripciones con Detalles Completos -->
+        <div>
+            <h3>Inscripciones con Detalles Completos</h3>
+            <button onclick="getInscriptionsWithDetails()">Obtener Detalles Completos</button>
+        </div>
+
+        <!-- Actualizar Inscripción -->
+        <div>
+            <h3>Actualizar Inscripción</h3>
+            <input type="number" id="inscriptionIdUpdate" placeholder="ID de inscripción">
+            <input type="number" id="inscriptionNota" placeholder="Nueva nota" step="0.1">
+            <button onclick="updateInscription()">Actualizar Nota</button>
+        </div>
+
+        <!-- Eliminar Inscripción -->
+        <div>
+            <h3>Eliminar Inscripción</h3>
+            <input type="number" id="inscriptionIdDelete" placeholder="ID de inscripción">
+            <button onclick="deleteInscription()">Eliminar</button>
+        </div>
+
+        <div id="inscriptionResult"></div>
+    </div>
+
+    <script>
+        // Verificar autenticación y rol
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        const token = sessionStorage.getItem('token');
+        
+        if (!user || user.rol !== 'Admin') {
+            window.location.href = 'index.html';
+        }
+
+        // Mostrar información del usuario
+        document.getElementById('userInfo').innerHTML = `
+            <p>Bienvenido, ${user.name} (${user.email}) - Administrador</p>
+        `;
+
+        function logout() {
+            sessionStorage.removeItem('user');
+            sessionStorage.removeItem('token');
+            window.location.href = 'index.html';
+        }
+
+        // Headers comunes para las peticiones
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+
+        // ========== FUNCIONES PARA USUARIOS ==========
+        async function createUser() {
+            const userData = {
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value,
+                password: document.getElementById('userPassword').value,
+                rol: document.getElementById('userRole').value
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/users', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(userData)
+                });
+                const result = await response.json();
+                document.getElementById('userResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('userResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getAllUsers() {
+            try {
+                const response = await fetch('http://localhost:3000/users/getAllUsers', {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('userResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('userResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getUserById() {
+            const userId = document.getElementById('userIdGet').value;
+            try {
+                const response = await fetch(`http://localhost:3000/users/${userId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('userResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('userResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getUserByEmail() {
+            const email = document.getElementById('userEmailGet').value;
+            try {
+                const response = await fetch(`http://localhost:3000/users/email/${email}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('userResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('userResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function updateUser() {
+            const userId = document.getElementById('userIdUpdate').value;
+            const userData = {
+                name: document.getElementById('userNameUpdate').value,
+                rol: document.getElementById('userRoleUpdate').value
+            };
+            
+            try {
+                const response = await fetch(`http://localhost:3000/users/${userId}`, {
+                    method: 'PATCH',
+                    headers: headers,
+                    body: JSON.stringify(userData)
+                });
+                const result = await response.json();
+                document.getElementById('userResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('userResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function deleteUser() {
+            const userId = document.getElementById('userIdDelete').value;
+            try {
+                const response = await fetch(`http://localhost:3000/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('userResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('userResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        // ========== FUNCIONES PARA PROFESORES ==========
+        async function createTeacher() {
+            const teacherId = document.getElementById('teacherId').value;
+            const especialidad = document.getElementById('especialidad').value;
+            
+            try {
+                const response = await fetch('http://localhost:3000/teachers', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({ id: teacherId, especialidad })
+                });
+                const result = await response.json();
+                document.getElementById('teacherResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('teacherResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getAllTeachers() {
+            try {
+                const response = await fetch('http://localhost:3000/teachers/getAllTeachers', {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('teacherResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('teacherResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getTeacherById() {
+            const teacherId = document.getElementById('teacherIdGet').value;
+            try {
+                const response = await fetch(`http://localhost:3000/teachers/${teacherId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('teacherResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('teacherResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getTeachersBySpecialty() {
+            const especialidad = document.getElementById('especialidadGet').value;
+            try {
+                const response = await fetch(`http://localhost:3000/teachers/especialidad/${especialidad}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('teacherResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('teacherResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function updateTeacher() {
+            const teacherId = document.getElementById('teacherIdUpdate').value;
+            const especialidad = document.getElementById('especialidadUpdate').value;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/teachers/${teacherId}`, {
+                    method: 'PATCH',
+                    headers: headers,
+                    body: JSON.stringify({ especialidad })
+                });
+                const result = await response.json();
+                document.getElementById('teacherResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('teacherResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function deleteTeacher() {
+            const teacherId = document.getElementById('teacherIdDelete').value;
+            try {
+                const response = await fetch(`http://localhost:3000/teachers/${teacherId}`, {
+                    method: 'DELETE',
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('teacherResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('teacherResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        // ========== FUNCIONES PARA ESTUDIANTES ==========
+        async function createStudent() {
+            const studentId = document.getElementById('studentId').value;
+            const anioIngreso = parseInt(document.getElementById('anioIngreso').value);
+            
+            try {
+                const response = await fetch('http://localhost:3000/students', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({ id: studentId, anio_ingreso: anioIngreso })
+                });
+                const result = await response.json();
+                document.getElementById('studentResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('studentResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getAllStudents() {
+            try {
+                const response = await fetch('http://localhost:3000/students/getAllStudents', {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('studentResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('studentResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getStudentById() {
+            const studentId = document.getElementById('studentIdGet').value;
+            try {
+                const response = await fetch(`http://localhost:3000/students/${studentId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('studentResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('studentResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function updateStudent() {
+            const studentId = document.getElementById('studentIdUpdate').value;
+            const anioIngreso = parseInt(document.getElementById('anioIngresoUpdate').value);
+            
+            try {
+                const response = await fetch(`http://localhost:3000/students/${studentId}`, {
+                    method: 'PATCH',
+                    headers: headers,
+                    body: JSON.stringify({ anio_ingreso: anioIngreso })
+                });
+                const result = await response.json();
+                document.getElementById('studentResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('studentResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function deleteStudent() {
+            const studentId = document.getElementById('studentIdDelete').value;
+            try {
+                const response = await fetch(`http://localhost:3000/students/${studentId}`, {
+                    method: 'DELETE',
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('studentResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('studentResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        // ========== FUNCIONES PARA CURSOS ==========
+        async function createCourse() {
+            const courseData = {
+                name: document.getElementById('courseName').value,
+                description: document.getElementById('courseDescription').value,
+                credits: parseInt(document.getElementById('courseCredits').value),
+                teacherId: document.getElementById('courseTeacherId').value
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/courses', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(courseData)
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getAllCourses() {
+            try {
+                const response = await fetch('http://localhost:3000/courses/getAllCourses', {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getCourseById() {
+            const courseId = document.getElementById('courseIdGet').value;
+            try {
+                const response = await fetch(`http://localhost:3000/courses/${courseId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getCoursesByName() {
+            const name = document.getElementById('courseNameSearch').value;
+            try {
+                const response = await fetch(`http://localhost:3000/courses/nombre/${name}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getCoursesByTeacher() {
+            const teacherId = document.getElementById('teacherCourses').value;
+            try {
+                const response = await fetch(`http://localhost:3000/courses/profesor/${teacherId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function updateCourse() {
+            const courseId = document.getElementById('courseIdUpdate').value;
+            const courseData = {
+                name: document.getElementById('courseNameUpdate').value,
+                description: document.getElementById('courseDescUpdate').value,
+                credits: parseInt(document.getElementById('courseCreditsUpdate').value)
+            };
+            
+            try {
+                const response = await fetch(`http://localhost:3000/courses/${courseId}`, {
+                    method: 'PATCH',
+                    headers: headers,
+                    body: JSON.stringify(courseData)
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function deleteCourse() {
+            const courseId = document.getElementById('courseIdDelete').value;
+            try {
+                const response = await fetch(`http://localhost:3000/courses/${courseId}`, {
+                    method: 'DELETE',
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('courseResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('courseResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        // ========== FUNCIONES PARA INSCRIPCIONES ==========
+        async function createInscription() {
+            const inscriptionData = {
+                fecha_inscripcion: document.getElementById('fechaInscripcion').value,
+                nota: parseFloat(document.getElementById('nota').value),
+                estudiante_id: document.getElementById('estudianteId').value,
+                curso_id: parseInt(document.getElementById('cursoId').value)
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/inscriptions', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(inscriptionData)
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getAllInscriptions() {
+            try {
+                const response = await fetch('http://localhost:3000/inscriptions/getAllInscriptions', {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getInscriptionById() {
+            const inscriptionId = document.getElementById('inscriptionIdGet').value;
+            try {
+                const response = await fetch(`http://localhost:3000/inscriptions/${inscriptionId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getInscriptionsByDate() {
+            const date = document.getElementById('inscriptionDate').value;
+            try {
+                const response = await fetch(`http://localhost:3000/inscriptions/fecha/${date}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getInscriptionsByStudent() {
+            const studentId = document.getElementById('inscriptionStudent').value;
+            try {
+                const response = await fetch(`http://localhost:3000/inscriptions/estudiante/${studentId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getInscriptionsByCourse() {
+            const courseId = document.getElementById('inscriptionCourse').value;
+            try {
+                const response = await fetch(`http://localhost:3000/inscriptions/curso/${courseId}`, {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function getInscriptionsWithDetails() {
+            try {
+                const response = await fetch('http://localhost:3000/inscriptions/detalles/completos', {
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function updateInscription() {
+            const inscriptionId = document.getElementById('inscriptionIdUpdate').value;
+            const nota = parseFloat(document.getElementById('inscriptionNota').value);
+            
+            try {
+                const response = await fetch(`http://localhost:3000/inscriptions/${inscriptionId}`, {
+                    method: 'PATCH',
+                    headers: headers,
+                    body: JSON.stringify({ nota })
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+
+        async function deleteInscription() {
+            const inscriptionId = document.getElementById('inscriptionIdDelete').value;
+            try {
+                const response = await fetch(`http://localhost:3000/inscriptions/${inscriptionId}`, {
+                    method: 'DELETE',
+                    headers: headers
+                });
+                const result = await response.json();
+                document.getElementById('inscriptionResult').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('inscriptionResult').innerHTML = `<pre>Error: ${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>

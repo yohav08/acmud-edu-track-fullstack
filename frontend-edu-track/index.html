@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema Académico</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Iniciar Sesión - Sistema Académico</h2>
+        
+        <div id="loginSection">
+            <form id="loginForm">
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            
+            <button type="button" onclick="showRegister()" style="background: #6c757d; width: 100%;">
+                ¿No tienes cuenta? Regístrate
+            </button>
+        </div>
+
+        <div id="registerSection" style="display: none;">
+            <h3>Registro de Usuario</h3>
+            <form id="registerForm">
+                <div class="form-group">
+                    <input type="text" id="regName" placeholder="Nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" placeholder="Contraseña" required>
+                </div>
+                <div class="form-group">
+                    <select id="regRole" required>
+                        <option value="">Seleccione un rol</option>
+                        <option value="Estudiante">Estudiante</option>
+                        <option value="Profesor">Profesor</option>
+                    </select>
+                </div>
+                <button type="submit">Registrarse</button>
+            </form>
+            
+            <button type="button" onclick="showLogin()" style="background: #6c757d; width: 100%;">
+                ¿Ya tienes cuenta? Inicia Sesión
+            </button>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        const API_BASE_URL = 'http://localhost:3000';
+        
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const messageDiv = document.getElementById('message');
+
+        function showRegister() {
+            loginSection.style.display = 'none';
+            registerSection.style.display = 'block';
+            clearMessage();
+        }
+
+        function showLogin() {
+            registerSection.style.display = 'none';
+            loginSection.style.display = 'block';
+            clearMessage();
+        }
+
+        function clearMessage() {
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+        }
+
+        function showMessage(message, isError = false) {
+            messageDiv.textContent = message;
+            messageDiv.className = `message ${isError ? 'error' : 'success'}`;
+        }
+
+        // Login
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage('Login exitoso! Redirigiendo...');
+                    
+                    sessionStorage.setItem('user', JSON.stringify(result.Details.UserDetails));
+                    sessionStorage.setItem('token', result.token);
+                    
+                    setTimeout(() => {
+                        switch(result.Details.UserDetails.rol) {
+                            case 'Profesor':
+                                window.location.href = 'profesor.html';
+                                break;
+                            case 'Estudiante':
+                                window.location.href = 'estudiante.html';
+                                break;
+                            case 'Admin':
+                                window.location.href = 'admin.html';
+                                break;
+                            default:
+                                showMessage('Rol no reconocido', true);
+                        }
+                    }, 1000);
+                } else {
+                    showMessage(result.message || 'Error en el login', true);
+                }
+            } catch (error) {
+                showMessage('Error de conexión. Verifica que el backend esté corriendo en puerto 3000', true);
+                console.error('Error:', error);
+            }
+        });
+
+        // Registro
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const role = document.getElementById('regRole').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ name, email, password, rol: role })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage('Registro exitoso! Ahora puedes iniciar sesión.');
+                    registerForm.reset();
+                    showLogin();
+                } else {
+                    showMessage(result.message || 'Error en el registro', true);
+                }
+            } catch (error) {
+                showMessage('Error de conexión. Verifica que el backend esté corriendo en puerto 3000', true);
+                console.error('Error:', error);
+            }
+        });
+
+        function checkExistingSession() {
+            const user = sessionStorage.getItem('user');
+            if (user) {
+                const userData = JSON.parse(user);
+                showMessage('Sesión activa encontrada. Redirigiendo...');
+                
+                setTimeout(() => {
+                    switch(userData.rol) {
+                        case 'Profesor':
+                            window.location.href = 'profesor.html';
+                            break;
+                        case 'Estudiante':
+                            window.location.href = 'estudiante.html';
+                            break;
+                        case 'Admin':
+                            window.location.href = 'admin.html';
+                            break;
+                    }
+                }, 1000);
+            }
+        }
+
+        checkExistingSession();
+    </script>
+</body>
+</html>
