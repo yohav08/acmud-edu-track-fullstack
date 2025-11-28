@@ -32,7 +32,10 @@ Para realizar las pruebas Cliente / Servicio, las guías para cada entidad se en
 
 ## Front-end
 
-
+```
+# Server
+$ python -m http.server 5500
+```
 
 ## Autora
 - Alba Yohana Avila Mendoza - Curso de Backend / NestJS
