@@ -11,12 +11,13 @@ import { TeacherEntity } from './entities/teachers.entities';
   controllers: [TeachersController],
   providers: [TeachersService],
   imports: [
-    ConfigModule, 
-    TypeOrmModule.forFeature([TeacherEntity])
+    ConfigModule,
+    TypeOrmModule.forFeature([
+      TeacherEntity
+    ])
   ],
   exports: [
-    TeachersService, 
     TypeOrmModule
   ],
 })
-export class UsersModule {}
+export class TeachersModule {}

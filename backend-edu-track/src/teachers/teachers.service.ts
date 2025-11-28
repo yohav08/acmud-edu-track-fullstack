@@ -18,7 +18,9 @@ export class TeachersService {
     private readonly usersService: UsersService,
   ) {}
 
-  // 🆕 CREATE TEACHER
+  /**
+   * ! Método para crear profesor 
+   */
   async createTeacher(createTeacherDto: CreateTeacherDto) {
     try {
       // Verificar que el usuario existe
@@ -58,11 +60,14 @@ export class TeachersService {
         }
       };
     } catch (error) {
+      console.error('Error al crear profesor: ', error.message);
       this.handlerErrors(error);
     }
   }
 
-  // 📋 FIND ALL TEACHERS
+  /**
+   * ! Método para Buscar todos los profesores
+   */
   async findAllTeachers() {
     try {
       const teachers = await this.teachersRepository.find({
@@ -85,11 +90,14 @@ export class TeachersService {
         teachers 
       };
     } catch (error) {
+      console.error('Error al buscar todos los profesores: ', error.message);
       this.handlerErrors(error);
     }
   }
 
-  // 🔍 FIND TEACHER BY ID
+  /**
+   * ! Método para Buscar usuario por ID
+   */
   async findTeacherById(id: string): Promise<TeacherEntity | null | undefined> {
     if (!isUUID(id)) {
       throw new BadRequestException(`El término de búsqueda ingresado no es un ID válido`);
@@ -117,11 +125,14 @@ export class TeachersService {
       }
       return teacher;
     } catch (error) {
+      console.error('Error al buscar profesor por ID - ', error.message);
       this.handlerErrors(error);
     }
   }
 
-  // 📚 FIND TEACHER BY ESPECIALIDAD (NUEVO MÉTODO)
+  /**
+   * ! Método para Buscar profesores por especialidad
+   */
   async findTeacherByEspecialidad(especialidad: string) {
     try {
       const teachers = await this.teachersRepository.find({
@@ -150,11 +161,14 @@ export class TeachersService {
         teachers
       };
     } catch (error) {
+      console.error('Error al buscar profesor por especialdiad - ', error.message);
       this.handlerErrors(error);
     }
   }
 
-  // ✏️ UPDATE TEACHER
+  /**
+   * ! Método para Actualizar profesor
+   */
   async updateTeacher(id: string, updateTeacherDto: UpdateTeacherDto) {
     // Verificar que el profesor existe
     await this.findTeacherById(id);
@@ -174,11 +188,14 @@ export class TeachersService {
         teacher: updatedTeacher
       };
     } catch (error) {
+      console.error('Error al actualizar información del profesor: ', error.message);
       this.handlerErrors(error);
     }
   }
 
-  // 🗑️ REMOVE TEACHER
+  /**
+   * ! Método para Eliminar profesor
+   */
   async removeTeacher(id: string) {
     try {
       const teacher = await this.findTeacherById(id);
@@ -197,11 +214,14 @@ export class TeachersService {
         }
       };
     } catch (error) {
+      console.error('Error al eliminar profesor: ', error.message);
       this.handlerErrors(error);
     }
   }
 
-  // 🚨 ERROR HANDLER
+  /**
+   * ! Manejador de errores - error handler
+   */
   handlerErrors(error: any) {
     this.logger.error(error.message);
     
