@@ -125,6 +125,7 @@ export class StudentsService {
       }
       return student;
     } catch (error) {
+      console.error('Error al buscar estudiante por ID: ', error.message);
       this.handlerErrors(error);
     }
   }

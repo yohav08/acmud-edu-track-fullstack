@@ -1,7 +1,7 @@
 import { Teacher } from "src/teachers/interfaces/teacher.interface";
 
 export interface Course {
-  id: string;  // UUID
+  id: number;
   name: string;
   description?: string; 
   credits: number; 

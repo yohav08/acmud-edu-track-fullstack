@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { StudentsService } from './students.service';
 import { StudentsController } from './students.controller';
 import { StudentEntity } from './entities/students.entities';
+import { UsersModule } from 'src/users/users.module';
 
 
 @Module({
@@ -14,9 +15,11 @@ import { StudentEntity } from './entities/students.entities';
     ConfigModule,
     TypeOrmModule.forFeature([
         StudentEntity
-    ])
+    ]),
+    UsersModule,
   ],
   exports: [ 
+    StudentsService,
     TypeOrmModule
   ],
 })

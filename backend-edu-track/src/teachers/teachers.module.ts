@@ -5,18 +5,20 @@ import { ConfigModule } from '@nestjs/config';
 import { TeachersController } from './teachers.controller';
 import { TeachersService } from './teachers.service';
 import { TeacherEntity } from './entities/teachers.entities';
+import { UsersModule } from 'src/users/users.module';
 
 
 @Module({
   controllers: [TeachersController],
   providers: [TeachersService],
   imports: [
-    ConfigModule,
     TypeOrmModule.forFeature([
       TeacherEntity
-    ])
+    ]),
+    UsersModule,
   ],
   exports: [
+    TeachersService,
     TypeOrmModule
   ],
 })

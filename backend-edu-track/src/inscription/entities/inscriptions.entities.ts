@@ -7,8 +7,8 @@ import { CourseEntity } from "src/courses/entities/courses.entities";
 @Unique(['studentId', 'courseId']) // Restricción única para evitar duplicados
 export class InscriptionEntity implements Inscription {
   
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+   @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @Column({
     name: 'fecha_inscripcion',
@@ -27,9 +27,9 @@ export class InscriptionEntity implements Inscription {
 
   @Column({
     name: 'curso_id',
-    type: 'uuid'
+    type: 'int'
   })
-  curso_id: string;
+  curso_id: number;
 
   // Relación con Student
   @ManyToOne(() => StudentEntity, { onDelete: 'CASCADE' })

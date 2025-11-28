@@ -5,8 +5,8 @@ import { TeacherEntity } from "src/teachers/entities/teachers.entities";
 @Entity({ name: 'courses' })
 export class CourseEntity implements Course {
   
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  id: number;
 
   @Column({ type: "varchar", length: 255 })
   name: string;
