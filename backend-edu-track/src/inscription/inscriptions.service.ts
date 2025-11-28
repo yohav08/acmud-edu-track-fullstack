@@ -60,7 +60,7 @@ export class InscriptionsService {
           nota: inscription.nota,
           estudiante_id: inscription.estudiante_id,
           curso_id: inscription.curso_id
-        }
+        },
       };
     } catch (error) {
       console.error('Error al crear inscripción: ', error.message);

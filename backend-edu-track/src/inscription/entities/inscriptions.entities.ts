@@ -4,15 +4,15 @@ import { StudentEntity } from "src/students/entities/students.entities";
 import { CourseEntity } from "src/courses/entities/courses.entities";
 
 @Entity({ name: 'inscriptions' })
-@Unique(['studentId', 'courseId']) // Restricción única para evitar duplicados
+@Unique(['estudiante_id', 'curso_id']) // Restricción única para evitar duplicados
 export class InscriptionEntity implements Inscription {
   
    @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({
-    name: 'fecha_inscripcion',
-    type: 'date'
+    type: 'date',
+    default: () => 'CURRENT_DATE' 
   })
   fecha_inscripcion: Date;
 
@@ -32,7 +32,7 @@ export class InscriptionEntity implements Inscription {
   curso_id: number;
 
   // Relación con Student
-  @ManyToOne(() => StudentEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => StudentEntity )
   @JoinColumn({ name: 'estudiante_id' })
   student: StudentEntity;
 

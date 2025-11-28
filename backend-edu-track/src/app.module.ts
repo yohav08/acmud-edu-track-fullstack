@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-
 import { ConfigModule } from '@nestjs/config';
-
-// import { SeedModule } from './seed/seed.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+// import { SeedModule } from './seed/seed.module';
+
 import { UsersModule } from './users/users.module';
+import { TeachersModule } from './teachers/teachers.module';
+import { StudentsModule } from './students/students.module';
+import { InscriptionsModule } from './inscription/inscriptions.module';
+import { CoursesModule } from './courses/courses.module';
 
 
 @Module({
@@ -24,6 +27,10 @@ import { UsersModule } from './users/users.module';
       }
     ),
     UsersModule,
+    TeachersModule,
+    StudentsModule,
+    InscriptionsModule,
+    CoursesModule
     // SeedModule,
   ],
   controllers: [],

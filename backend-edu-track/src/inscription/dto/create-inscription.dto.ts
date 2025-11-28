@@ -1,8 +1,14 @@
+import { Transform } from "class-transformer";
 import { IsDate, IsNumber, IsOptional, IsUUID, Min, Max } from "class-validator";
 
 export class CreateInscriptionDto {
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (!value) return new Date(); // Convierte el string ISO a Date object
+    return new Date(value);
+  })
   @IsDate({ message: 'La fecha de inscripción debe ser una fecha válida' })
-  fecha_inscripcion: Date;
+  fecha_inscripcion?: Date;
 
   @IsNumber({}, { message: 'La nota debe ser un número' })
   @Min(0, { message: 'La nota no puede ser menor a 0' })
