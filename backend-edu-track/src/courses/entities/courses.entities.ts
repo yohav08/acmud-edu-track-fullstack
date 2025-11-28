@@ -24,7 +24,11 @@ export class CourseEntity implements Course {
   teacherId: string;
 
   // Relación con Teacher
-  @ManyToOne(() => TeacherEntity, { onDelete: 'RESTRICT' })
+  @ManyToOne(() => TeacherEntity, { 
+      cascade: true,
+      onDelete: 'CASCADE',
+      nullable: false
+  })
   @JoinColumn({ name: 'profesor_id' })
   teacher: TeacherEntity;
 }

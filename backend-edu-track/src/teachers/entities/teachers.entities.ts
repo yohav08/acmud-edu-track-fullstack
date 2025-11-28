@@ -11,7 +11,12 @@ export class TeacherEntity implements Teacher {
   @Column('text')
   especialidad: string;
 
-  @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @OneToOne(
+    () => UserEntity, { 
+      cascade: true,
+      onDelete: 'CASCADE',
+      nullable: false
+  })
   @JoinColumn({ name: 'id' }) // La FK es la misma PK
   id_user: UserEntity;
 }

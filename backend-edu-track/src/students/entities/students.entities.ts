@@ -12,7 +12,11 @@ export class StudentEntity implements Student {
   anio_ingreso: number;
 
   // Relación con User
-  @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @OneToOne(() => UserEntity, { 
+      cascade: true,
+      onDelete: 'CASCADE',
+      nullable: false
+  })
   @JoinColumn({ name: 'id' }) // La FK es la misma PK
   user: UserEntity;
 }

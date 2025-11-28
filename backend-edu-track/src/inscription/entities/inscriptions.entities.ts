@@ -32,12 +32,20 @@ export class InscriptionEntity implements Inscription {
   curso_id: number;
 
   // Relación con Student
-  @ManyToOne(() => StudentEntity )
+  @ManyToOne(() => StudentEntity, { 
+      cascade: true,
+      onDelete: 'CASCADE',
+      nullable: false
+  })
   @JoinColumn({ name: 'estudiante_id' })
   student: StudentEntity;
 
   // Relación con Course
-  @ManyToOne(() => CourseEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => CourseEntity, { 
+      cascade: true,
+      onDelete: 'CASCADE',
+      nullable: false
+  })
   @JoinColumn({ name: 'curso_id' })
   course: CourseEntity;
 }

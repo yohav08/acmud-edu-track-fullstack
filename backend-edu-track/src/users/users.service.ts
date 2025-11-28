@@ -94,7 +94,7 @@ export class UsersService {
     try {
       const user = await this.usersRepository.findOne({
         where: { email },
-        select: ['id', 'name', 'email', 'rol', 'createdAt'] // Excluir password
+        select: ['id', 'name', 'email', 'password', 'rol', 'createdAt'] // Excluir password
       });
       
       if (!user) {

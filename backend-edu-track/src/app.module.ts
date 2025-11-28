@@ -8,6 +8,7 @@ import { TeachersModule } from './teachers/teachers.module';
 import { StudentsModule } from './students/students.module';
 import { InscriptionsModule } from './inscription/inscriptions.module';
 import { CoursesModule } from './courses/courses.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -30,7 +31,8 @@ import { CoursesModule } from './courses/courses.module';
     TeachersModule,
     StudentsModule,
     InscriptionsModule,
-    CoursesModule
+    CoursesModule,
+    AuthModule
     // SeedModule,
   ],
   controllers: [],
